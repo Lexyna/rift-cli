@@ -19,7 +19,7 @@ def init(ticks, paused):
     if os.path.isdir(RIFT_FOLDER):
         if not click.confirm("rift state found. Gnereta new State and delete old one?"):
             msg_aborted = Text("Aborted!")
-            msg_aborted.stylize({color.red})
+            msg_aborted.stylize(f"{color.red}")
             console.print(msg_aborted)
             return
         else:
