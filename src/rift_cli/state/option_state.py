@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
 @dataclass
-class option_state:
+class OptionState:
     tickrate: int = 10
     paused: bool = False

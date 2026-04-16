@@ -1,6 +1,7 @@
 import click
 from rift_cli.commands.generic.init import init
 from rift_cli.commands.generic.status import status
+from rift_cli.commands.planets.planets import planets
 
 @click.group
 def cli():
@@ -8,6 +9,7 @@ def cli():
 
 cli.add_command(init)
 cli.add_command(status)
+cli.add_command(planets)
 
 if __name__ == '__main__':
     cli()
