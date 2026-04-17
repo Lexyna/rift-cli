@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from enum import Enum
 
-class ResouceType(Enum):
+class ResourceType(Enum):
     METAL = 1
 
 @dataclass
 class Deposit:
-    type: ResouceType
+    type: ResourceType
     amount: int
 
