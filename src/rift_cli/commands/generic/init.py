@@ -1,6 +1,6 @@
 from rift_cli.utils.colors import color
 from rift_cli.display.console import console
-from rift_cli.functions.generic.game import create_new_game_state
+from rift_cli.functions.generic.game import create_new_game_state, save_game
 from rift_cli.utils.vars import RIFT_FOLDER, STATE_PATH
 import click
 import os
@@ -30,8 +30,9 @@ def init(ticks, paused):
     converter = cattrs.Converter()
 
     game_state = create_new_game_state(ticks, paused)
-    f = open(STATE_PATH, "w")
-    f.write(json.dumps(converter.unstructure(game_state)))
+    save_game(game_state)
+    #f = open(STATE_PATH, "w")
+    #f.write(json.dumps(converter.unstructure(game_state)))
 
     msg_finished = Text(f"Created new game with {ticks}s/ticks")
     msg_finished.stylize(f"bold {color.green}")

@@ -15,7 +15,7 @@ def planets() -> None:
     planet_table.add_column("id")
     planet_table.add_column("slots")
 
-    for p in game_state.planets:
+    for p in game_state.planets.values():
         planet_table.add_row(p.name,
                             p.id,
                     f"{len(p.slots)}/{p.max_slots}")
