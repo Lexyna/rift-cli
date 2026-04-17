@@ -1,3 +1,4 @@
+from rift_cli.data.resources import ResourceType
 from rift_cli.functions.generic.game import load_game
 from rift_cli.data.game import gamedata
 from rift_cli.display.console import console
@@ -10,10 +11,15 @@ from rich.text import Text
 @click.command
 def status() -> None:
     
-    game_state: gamedata = load_game()
+    game: gamedata = load_game()
     
     msg_status = Text(f"Ticks since game started: ")
-    msg_status.append(f"{game_state.current_tick}", f"bold {color.green}")
+    msg_status.append(f"{game.current_tick}", f"bold {color.green}")
 
     console.log(msg_status)
+
+    msg_resources = Text("Metal: ")
+    msg_resources.append(f"{game.resources[ResourceType.METAL]}", f"bold {color.green}")
+    console.log(msg_resources)
+
     pass
