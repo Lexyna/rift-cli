@@ -6,11 +6,9 @@ import click
 import os
 import shutil
 from rich.text import Text
-import cattrs
-import json
 
 @click.command
-@click.option("-ticks", "-t", type=int, default=10,
+@click.option("--ticks", "-t", type=int, default=10,
               help="Inits the game with <number> seconds per tick")
 @click.option("--paused", "-p", is_flag=True, default=False,
               help="Startes the game in paused mode")
@@ -27,8 +25,6 @@ def init(ticks, paused):
     click.echo("Creating new state")
     os.mkdir(RIFT_FOLDER)
     
-    converter = cattrs.Converter()
-
     game_state = create_new_game_state(ticks, paused)
     save_game(game_state)
 

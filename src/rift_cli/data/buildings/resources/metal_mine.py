@@ -1,5 +1,5 @@
 from rift_cli.data.buildings.building import Building, set_curr_tick
-from rift_cli.data.buildings.building_registry import building_tick
+from rift_cli.data.buildings.building_registry import building_display, building_tick
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.resources import ResourceType
 from rift_cli.display.console import console
@@ -20,4 +20,9 @@ def metal_mine_tick(building: Building, planet: PlanetData, game: GameData, tick
     # simple logic for now
     if planet.deposits[ResourceType.METAL] > 10 * executed:
         game.resources[ResourceType.METAL] += 10 * executed
+    pass
+
+@building_display(BUILDING.METALMINE)
+def metal_mine_display(building: Building, game: GameData, ticks: int) -> None:
+    console.log(f"Metalmine tick: {building.curr_tick}")
     pass
