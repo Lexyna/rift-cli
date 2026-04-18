@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 class ResourceType(Enum):
-    METAL = "1"
+    METAL = "metal"
 
 @dataclass
 class Deposit:

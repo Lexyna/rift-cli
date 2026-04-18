@@ -17,7 +17,7 @@ import json
 def init(ticks, paused):
     
     if os.path.isdir(RIFT_FOLDER):
-        if not click.confirm("rift state found. Gnereta new State and delete old one?"):
+        if not click.confirm("rift state found. Generate new State and delete old one?"):
             msg_aborted = Text("Aborted!")
             msg_aborted.stylize(f"{color.red}")
             console.print(msg_aborted)
@@ -31,8 +31,6 @@ def init(ticks, paused):
 
     game_state = create_new_game_state(ticks, paused)
     save_game(game_state)
-    #f = open(STATE_PATH, "w")
-    #f.write(json.dumps(converter.unstructure(game_state)))
 
     msg_finished = Text(f"Created new game with {ticks}s/ticks")
     msg_finished.stylize(f"bold {color.green}")

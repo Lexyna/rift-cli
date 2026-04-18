@@ -5,7 +5,7 @@ from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.planetdata import PlanetData
 
 
-BuildingTick = Callable[[Building, PlanetData, GameData], None]
+BuildingTick = Callable[[Building, PlanetData, GameData, int], None]
 
 registry_building: dict[str, BuildingTick] = {}
 
