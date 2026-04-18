@@ -1,15 +1,15 @@
 from rich.table import Table
 
+from rift_cli.data.game.gamedata import GameData, game_ctx
 from rift_cli.display.console import console
 import click
 
 from rift_cli.functions.generic.game import load_game
 
 @click.command
-def list() -> None:
+@game_ctx
+def list(game: GameData) -> None:
     
-    game = load_game()
-
     building_table = Table(title="buildings")
     building_table.box = None
 
@@ -19,8 +19,10 @@ def list() -> None:
 
     for b in game.buildings.values():
         
+        planet_name: str = game.planets[b.planet_id].name
+
         building_table.add_row(b.name,
-                               b.planet,
+                               planet_name,
                                b.id)
         pass
 

@@ -3,7 +3,7 @@ from rift_cli.data.game.optiondata import OptionData
 from rift_cli.data.planetdata import PlanetData
 from rift_cli.data.resources import ResourceType
 from dataclasses import dataclass, field
-import time
+import click
 
 @dataclass
 class GameData:
@@ -14,4 +14,5 @@ class GameData:
         default_factory=lambda: {r: 0 for r in ResourceType})
     planets: dict[str, PlanetData] = field(default_factory=dict)
     buildings: dict[str, Building] = field(default_factory=dict)
-    
+
+game_ctx = click.make_pass_decorator(GameData, ensure=True)

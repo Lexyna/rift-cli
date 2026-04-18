@@ -3,19 +3,17 @@ import time
 
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.resources import ResourceType
-from rift_cli.functions.generic.game import load_game, save_game, tick
+from rift_cli.functions.generic.game import load_game, save_game
 from rift_cli.display.console import console
 from rift_cli.utils.colors import color
-from rift_cli.functions.generic.generators import generate_planet_name
-from rift_cli.display.formatter import format_number
+from rift_cli.data.game.gamedata import game_ctx
 import click
 from rich.text import Text
 
 @click.command
-def status() -> None:
-    
-    game: GameData = load_game()
-    
+@game_ctx
+def status(game: GameData) -> None:
+        
     if game.options.paused:
         console.log(Text(f"Paused"))
         print_resources(game)
