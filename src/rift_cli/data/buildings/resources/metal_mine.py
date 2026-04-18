@@ -13,10 +13,15 @@ class MetalMine(Building):
     name: str = BUILDING.METALMINE
     
 @building_tick(BUILDING.METALMINE)
-def metal_mine_tick(building: Building, planet: PlanetData, game: GameData, ticks: int) -> None:
+def metal_mine_tick(building: Building, game: GameData, ticks: int) -> None:
     
     executed: int = set_curr_tick(building, ticks)
     
+    if not building.planet_id in game.planets:
+        return
+
+    planet: PlanetData = game.planets[building.planet_id]
+
     # simple logic for now
     if planet.deposits[ResourceType.METAL] > 10 * executed:
         game.resources[ResourceType.METAL] += 10 * executed
@@ -24,5 +29,5 @@ def metal_mine_tick(building: Building, planet: PlanetData, game: GameData, tick
 
 @building_display(BUILDING.METALMINE)
 def metal_mine_display(building: Building, game: GameData, ticks: int) -> None:
-    console.log(f"Metalmine tick: {building.curr_tick}")
+    console.log(f"Metalmine({building.id})  tick: {building.curr_tick}")
     pass

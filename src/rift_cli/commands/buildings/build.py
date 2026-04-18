@@ -34,10 +34,10 @@ def create_new_building(building: Building, planet_id: str) -> None:
 
     # add building
     game.planets[planet_id].slots.append(building.id)
-    building.planet = game.planets[planet_id].name
+    building.planet_id = planet_id
     game.buildings[building.id] = building
 
-    console.log(f"Added new  building '{building.name}' on planet '{game.planets[planet_id].name}'")
+    console.log(f"Added new building '{building.name}' on planet '{game.planets[planet_id].name}'")
 
     save_game(game)
     

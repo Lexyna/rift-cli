@@ -57,7 +57,7 @@ def tick(game: GameData, ticks: int) -> None:
             if not building_id in game.buildings:
                 continue
             building = game.buildings[building_id]
-            registry_building[building.name](building, planet, game, ticks)
+            registry_building[building.name](building, game, ticks)
             pass
 
     return

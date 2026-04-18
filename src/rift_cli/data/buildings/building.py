@@ -9,7 +9,7 @@ class Building:
     id: str = field(default_factory=lambda: generate_id(), init=False)
     name: str = "BaseBuilding"
     level: int = 1
-    planet: str = "None"
+    planet_id: str = "None"
     curr_tick: int = 0
     cooldown: int = 20
 
