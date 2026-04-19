@@ -24,9 +24,9 @@ def create_new_game_state(ticks: int, paused: bool) -> GameData:
 
     game.last_update = time.time()
 
-    planet = create_planet()
-
-    game.planets[planet.id] = planet
+    for i in range(10):
+        planet = create_planet()
+        game.planets[planet.id] = planet
 
     return game
 

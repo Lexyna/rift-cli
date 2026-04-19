@@ -1,4 +1,5 @@
 from rich.tree import Tree
+from rich.columns import Columns
 
 from rift_cli.data.game.gamedata import GameData, game_ctx
 import click
@@ -9,14 +10,16 @@ from rift_cli.display.console import console
 @game_ctx
 def tree(game: GameData) -> None:
     
-    tree = Tree("System")
+    tree_list: list[Tree] = []
 
     for p in game.planets.values():
-        branch = tree.add(p.name + f" ({len(p.slots)}/{p.max_slots})")
+        planet_tree = Tree(p.name + f" ({len(p.slots)}/{p.max_slots})")
         for id in p.slots:
             if id in game.buildings:
-                branch.add(game.buildings[id].name)
+                planet_tree.add(game.buildings[id].name + f" (lv.{game.buildings[id].level})")
+        tree_list.append(planet_tree)
     
-    console.log(tree)
+    coloumns = Columns(tree_list)
+    console.log(coloumns)
 
     pass

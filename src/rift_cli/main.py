@@ -1,4 +1,5 @@
 from math import floor
+import os
 import time
 
 import click
@@ -9,11 +10,16 @@ from rift_cli.commands.planets.planets import planets
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.display.console import console
 from rift_cli.functions.generic.game import load_game, save_game, tick
+from rift_cli.utils.vars import RIFT_FOLDER
 
 @click.group
 @click.pass_context
 def cli(ctx: click.Context):
-    #Add check for failed load
+    
+    # TODO: Add better check with route to init or aboard
+    if not os.path.isdir(RIFT_FOLDER):
+        return
+
     gamestate: GameData = load_game()
 
     game_ctx = gamestate #GameContext(state=gamestate)

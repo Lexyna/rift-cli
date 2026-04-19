@@ -3,6 +3,7 @@ from enum import Enum
 
 class ResourceType(Enum):
     METAL = "metal"
+    CREDITS = "credits"
 
 @dataclass
 class Deposit:
