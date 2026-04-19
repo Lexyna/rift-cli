@@ -34,7 +34,7 @@ def metal_mine_tick(building: Building, game: GameData, ticks: int) -> None:
 
 @building_display(BUILDING.METALMINE)
 def display(building: Building, game: GameData, ticks: int) -> None:
-    console.log(f"Metalmine({building.id})  tick: {building.curr_tick}/{building.cooldown}")
+    console.log(f"Metalmine({building.id}) ({building.level}) tick: {building.curr_tick}/{building.cooldown}")
     pass
 
 @building_display_live(BUILDING.METALMINE)
@@ -42,7 +42,7 @@ def display_live(p: Progress, building: Building, game: GameData, ticks: int) ->
     
     planetname = game.planets[building.planet_id].name
     name = Text(f"[{color.cyan}]{building.name}[/{color.cyan}]([{color.orange}]{planetname}[/{color.orange}])")
-    
+
     task = p.add_task(name,
                     completed=building.curr_tick,
                     total=building.cooldown,

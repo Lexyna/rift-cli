@@ -14,6 +14,7 @@ def list(game: GameData) -> None:
     building_table.box = None
 
     building_table.add_column("name")
+    building_table.add_column("lv")
     building_table.add_column("planet")
     building_table.add_column("id")
 
@@ -22,6 +23,7 @@ def list(game: GameData) -> None:
         planet_name: str = game.planets[b.planet_id].name
 
         building_table.add_row(b.name,
+                               str(b.level),
                                planet_name,
                                b.id)
         pass
