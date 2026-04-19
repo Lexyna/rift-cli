@@ -1,6 +1,6 @@
 
 class color:
-    orange ="black"
+    orange ="orange1"
     red="red"
     green="green"
     yellow="yellow"
@@ -8,3 +8,4 @@ class color:
     magenta="magenta"
     cyan="cyan"
     white="white"
+    black="black"
