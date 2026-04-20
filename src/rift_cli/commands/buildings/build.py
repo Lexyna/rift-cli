@@ -39,5 +39,4 @@ def create_new_building(game: GameData, building: Building, planet_id: str) -> N
         registry_building_create[building.name](building, game)
 
     console.log(f"Added new building '{building.name}({building.id})' on planet '{game.planets[planet_id].name}'")    
-    console.log(f"In dict: {game.buildings[building.id]}")
     pass

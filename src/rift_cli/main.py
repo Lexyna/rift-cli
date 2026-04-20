@@ -35,7 +35,8 @@ def cli(ctx: click.Context):
         tick(game_ctx, compounded_ticks)
         game_ctx.current_tick += compounded_ticks
         game_ctx.last_update = curr_time
-        ctx.call_on_close(lambda: save_game(game_ctx))
+    
+    ctx.call_on_close(lambda: save_game(game_ctx))
     pass
 
 cli.add_command(init)
