@@ -2,6 +2,7 @@ from rift_cli.data.buildings.building import Building
 from rift_cli.data.buildings.resources.metal_mine import MetalMine
 from rift_cli.data.game.gamedata import GameData, game_ctx
 from rift_cli.display.console import console
+from rift_cli.functions.generic.generators import generate_id
 from rift_cli.utils.vars import BUILDING
 from rift_cli.data.buildings.building_registry import registry_building_create
 import click
@@ -37,5 +38,6 @@ def create_new_building(game: GameData, building: Building, planet_id: str) -> N
     if building.name in registry_building_create:
         registry_building_create[building.name](building, game)
 
-    console.log(f"Added new building '{building.name}' on planet '{game.planets[planet_id].name}'")    
+    console.log(f"Added new building '{building.name}({building.id})' on planet '{game.planets[planet_id].name}'")    
+    console.log(f"In dict: {game.buildings[building.id]}")
     pass

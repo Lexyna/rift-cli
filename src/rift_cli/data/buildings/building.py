@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Building:
-    id: str = field(default_factory=lambda: generate_id(), init=False)
+    id: str = field(default=generate_id())
     name: str = "BaseBuilding"
     level: int = 1
     planet_id: str = "None"
