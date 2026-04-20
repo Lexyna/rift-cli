@@ -49,8 +49,8 @@ def display_live(p: Progress, building: Building, game: GameData, ticks: int) ->
     name = Text(f"[{color.cyan}]{building.name}[/{color.cyan}]([{color.orange}]{planetname}[/{color.orange}])")
 
     task = p.add_task(name,
-                    completed=building.curr_tick,
-                    total=building.cooldown,
+                    completed=building.curr_tick * game.options.tickrate,
+                    total=building.cooldown * game.options.tickrate,
                     desc="Extracting: METAL")
     
     return task

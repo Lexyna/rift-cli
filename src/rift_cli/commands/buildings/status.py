@@ -24,7 +24,7 @@ def status(game, live) -> None:
             TextColumn("[progress.description]{task.description}"),
             BarColumn(complete_style=f"{color.green}"),
             TextColumn(text_format="[blue]{task.fields[desc]}"),
-            "[magenta]{task.completed}/{task.total} ticks",
+            "[magenta]{task.completed}/{task.total} seconds",
             refresh_per_second=2
         )
 
