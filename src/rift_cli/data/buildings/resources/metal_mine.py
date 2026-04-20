@@ -2,7 +2,7 @@ from rich.progress import Progress, Task, TaskID
 from rich.text import Text
 
 from rift_cli.data.buildings.building import Building, set_curr_tick
-from rift_cli.data.buildings.building_registry import building_display, building_tick, building_display_live
+from rift_cli.data.buildings.building_registry import building_create, building_display, building_tick, building_display_live
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.resources import ResourceType
 from rift_cli.display.console import console
@@ -16,8 +16,13 @@ from rift_cli.utils.vars import BUILDING
 class MetalMine(Building):
     name: str = BUILDING.METALMINE
     
+@building_create(BUILDING.METALMINE)
+def create(building: Building, game: GameData) -> None:
+    console.log("Build new mine")
+    pass
+
 @building_tick(BUILDING.METALMINE)
-def metal_mine_tick(building: Building, game: GameData, ticks: int) -> None:
+def tick(building: Building, game: GameData, ticks: int) -> None:
     
     executed: int = set_curr_tick(building, ticks)
     
