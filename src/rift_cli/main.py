@@ -22,7 +22,7 @@ def cli(ctx: click.Context):
 
     gamestate: GameData = load_game()
 
-    game_ctx = gamestate #GameContext(state=gamestate)
+    game_ctx = gamestate
     ctx.obj = game_ctx
     
     curr_time: float = time.time()
