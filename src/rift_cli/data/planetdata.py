@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from rift_cli.data.resources import ResourceType
+from rift_cli.data.resources import Deposit, ResourceType
 
 @dataclass
 class PlanetData:
@@ -7,5 +7,4 @@ class PlanetData:
     name: str
     max_slots: int 
     slots: list[str] = field(default_factory=list)
-    deposits: dict[ResourceType, int] = field(
-        default_factory=lambda: {r: 0 for r in ResourceType})
+    deposits: list[Deposit] = field(default_factory=list)

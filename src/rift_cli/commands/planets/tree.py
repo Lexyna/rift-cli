@@ -4,7 +4,7 @@ from rich.columns import Columns
 from rift_cli.data.game.gamedata import GameData, game_ctx
 import click
 
-from rift_cli.data.resources import print_resource
+from rift_cli.data.resources import Grade, Resource, print_resource
 from rift_cli.display.console import console
 
 @click.command
@@ -24,7 +24,8 @@ def tree(game: GameData) -> None:
 
         resource_brnach = planet_tree.add("Resources")
         for value in p.deposits:
-            resource_brnach.add(print_resource(value, p.deposits[value]))
+            res = value.resource
+            resource_brnach.add(print_resource(res))
 
     
     coloumns = Columns(tree_list)

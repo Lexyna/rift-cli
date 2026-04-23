@@ -1,8 +1,8 @@
 from rich.text import Text
 
-from rift_cli.display.formatter import format_number
+from rift_cli.display.formatter import format_number, number_to_roman
 from rift_cli.utils.colors import color
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 class Grade(Enum):
@@ -14,21 +14,36 @@ class Grade(Enum):
     PRISTINE = "Pristine"
 
 class ResourceType(Enum):
-    METAL = "metal"
-    CREDITS = "credits"
+    METAL = "Metal"
+    MINERAL = "Mineral"
+    CRYSTAL = "Crystal"
+    LIQUID = "Liquid"
+    ORGANIC = "Organic"
+    GAS = "Gas"
+
+@dataclass
+class Resource:
+    grade: Grade = Grade.IMPURE
+    type: ResourceType = ResourceType.METAL
+    amount: int = 0
+    lv: int = 1
 
 @dataclass
 class Deposit:
-    type: ResourceType
-    amount: int
+    resource: Resource = field(default_factory=Resource())
+    extraction_diff: int = 1
 
-def print_resource(type: ResourceType, value: int) -> str:
+def print_resource(res: Resource) -> str:
     
     txt_color = ""
 
-    match type:
+    match res.type:
         case ResourceType.METAL: txt_color = f"{color.black}"
-        case ResourceType.CREDITS: txt_color = f"{color.cyan}"
+        case ResourceType.CRYSTAL: txt_color = f"{color.cyan}"
+        case ResourceType.MINERAL: txt_color = f"{color.magenta}"
+        case ResourceType.LIQUID: txt_color = f"{color.blue}"
+        case ResourceType.ORGANIC: txt_color = f"{color.orange}"
+        case ResourceType.GAS: txt_color = f"{color.yellow}"
         case _: txt_color = f"{color.white}" 
 
-    return Text(f"{type.name}: {format_number(value)}", f"{txt_color}")
+    return Text(f"{res.grade.name} {res.type.name}({number_to_roman(res.lv)}): {format_number(res.amount)}", f"{txt_color}")

@@ -10,6 +10,7 @@ class GameData:
     options: OptionData
     current_tick: int = 0
     last_update: float = 0  #timestamp
+    credits: int  = 1000
     resources: dict[ResourceType, int] = field(
         default_factory=lambda: {r: 0 for r in ResourceType})
     planets: dict[str, PlanetData] = field(default_factory=dict)
