@@ -4,11 +4,12 @@ from rich.text import Text
 from rift_cli.data.buildings.building import Building, set_curr_tick
 from rift_cli.data.buildings.building_registry import building_create, building_display, building_tick, building_display_live
 from rift_cli.data.game.gamedata import GameData
-from rift_cli.data.resources import ResourceType
+from rift_cli.data.resources import ResourceType, resource_to_key
 from rift_cli.display.console import console
 from dataclasses import dataclass, field
 
 from rift_cli.data.planetdata import PlanetData
+from rift_cli.functions.generic.game import player_add_resource
 from rift_cli.utils.colors import color
 from rift_cli.utils.vars import BUILDING
 
@@ -34,7 +35,7 @@ def tick(building: Building, game: GameData, ticks: int) -> None:
     for deposit in planet.deposits:
         if deposit.extraction_diff <= 1 and deposit.resource.type == ResourceType.METAL:
             if deposit.resource.amount > 10 * executed:
-                game.resources[ResourceType.METAL] += 10 * executed
+                player_add_resource(game, deposit.resource, 10 * executed)
                 deposit.resource.amount -= 10 * executed
     pass
 

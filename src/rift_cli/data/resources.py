@@ -47,3 +47,7 @@ def print_resource(res: Resource) -> str:
         case _: txt_color = f"{color.white}" 
 
     return Text(f"{res.grade.name} {res.type.name}({number_to_roman(res.lv)}): {format_number(res.amount)}", f"{txt_color}")
+
+
+def resource_to_key(res: Resource) -> str:
+    return f"{res.grade.name}{res.type.name}({res.lv})"

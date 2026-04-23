@@ -3,6 +3,7 @@ import time
 
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.resources import ResourceType
+from rift_cli.display.formatter import number_to_roman
 from rift_cli.functions.generic.game import load_game, save_game
 from rift_cli.display.console import console
 from rift_cli.utils.colors import color
@@ -31,8 +32,7 @@ def status(game: GameData) -> None:
 
 def print_resources(game: GameData) -> None:
     
-    msg_resources = Text("Metal: ")
-    msg_resources.append(f"{game.resources[ResourceType.METAL]}", f"bold {color.green}")
-    console.log(msg_resources)
+    for res in game.resources.values():
+        console.log(f"{res.grade.name} {res.type.name}({number_to_roman(res.lv)}): {res.amount}")
 
     pass

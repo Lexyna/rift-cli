@@ -6,6 +6,7 @@ from rich.text import Text
 
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.game.optiondata import OptionData
+from rift_cli.data.resources import Resource, resource_to_key
 from rift_cli.utils.colors import color
 from rift_cli.utils.vars import RIFT_FOLDER, STATE_PATH
 from rift_cli.data.buildings.building_registry import registry_building
@@ -61,3 +62,11 @@ def tick(game: GameData, ticks: int) -> None:
             pass
 
     return
+
+def player_add_resource(game: GameData, res: Resource, amount: int) -> None:
+    key = resource_to_key(res)
+    if not key in game.resources:
+        game.resources[key] = res
+        res.amount = 0
+    game.resources[key].amount += amount
+    pass
