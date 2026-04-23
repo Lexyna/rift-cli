@@ -52,7 +52,6 @@ class Deposit:
     extraction_diff: int = 1
 
 def print_resource(res: Resource) -> str:
-
     return f"{res.grade.format()} {res.type.format()}({number_to_roman(res.lv)}): [{color.green}]{format_number(res.amount)}[/{color.green}]"
 
 

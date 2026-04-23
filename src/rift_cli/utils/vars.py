@@ -3,3 +3,4 @@ STATE_PATH = RIFT_FOLDER + "state"
 
 class BUILDING:
     METALMINE = "metalmine"
+    CRYSTALMINE = "crystalmine"

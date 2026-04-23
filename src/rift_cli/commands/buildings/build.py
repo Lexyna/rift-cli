@@ -1,5 +1,5 @@
 from rift_cli.data.buildings.building import Building
-from rift_cli.data.buildings.resources.metal_mine import MetalMine
+from rift_cli.data.buildings.resources.metal.metal_mine import MetalMine
 from rift_cli.data.game.gamedata import GameData, game_ctx
 from rift_cli.display.console import console
 from rift_cli.functions.generic.generators import generate_id

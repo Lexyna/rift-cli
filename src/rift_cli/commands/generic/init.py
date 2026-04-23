@@ -1,3 +1,5 @@
+from rift_cli.data.resources import Resource
+from rift_cli.functions.generic.resource_utils import player_add_resource
 from rift_cli.utils.colors import color
 from rift_cli.display.console import console
 from rift_cli.functions.generic.game import create_new_game_state, save_game
@@ -26,6 +28,7 @@ def init(ticks, paused):
     os.mkdir(RIFT_FOLDER)
     
     game_state = create_new_game_state(ticks, paused)
+
     save_game(game_state)
 
     msg_finished = Text(f"Created new game with {ticks}s/ticks")

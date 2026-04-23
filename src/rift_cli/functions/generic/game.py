@@ -1,9 +1,11 @@
 from math import floor
 import time
 
+from cattrs.strategies import include_subclasses
 import click
 from rich.text import Text
 
+from rift_cli.data.buildings.building import Building
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.game.optiondata import OptionData
 from rift_cli.data.resources import Resource, resource_to_key
@@ -12,7 +14,6 @@ from rift_cli.utils.vars import RIFT_FOLDER, STATE_PATH
 from rift_cli.data.buildings.building_registry import registry_building
 from rift_cli.functions.planets.planet import create_planet
 from rift_cli.display.console import console
-import datetime
 import cattrs
 import json
 import os
@@ -47,6 +48,7 @@ def save_game(game: GameData) -> None:
         return
 
     converter = cattrs.Converter()
+    
     with open(STATE_PATH, "w") as f:
         f.write(json.dumps(converter.unstructure(game)))
 
@@ -62,11 +64,3 @@ def tick(game: GameData, ticks: int) -> None:
             pass
 
     return
-
-def player_add_resource(game: GameData, res: Resource, amount: int) -> None:
-    key = resource_to_key(res)
-    if not key in game.resources:
-        game.resources[key] = res
-        res.amount = 0
-    game.resources[key].amount += amount
-    pass
