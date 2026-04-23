@@ -5,21 +5,39 @@ from rift_cli.utils.colors import color
 from dataclasses import dataclass, field
 from enum import Enum
 
-class Grade(Enum):
-    IMPURE = "Impure"
-    CRUDE = "Crude"
-    COMMON = "Common"
-    REFINED = "Refined"
-    PURE = "Pure"
-    PRISTINE = "Pristine"
+class PrintMixin:
+    def format(self) -> str:
+        return f"[{self.col}]{self.name}[/{self.col}]"
 
-class ResourceType(Enum):
-    METAL = "Metal"
-    MINERAL = "Mineral"
-    CRYSTAL = "Crystal"
-    LIQUID = "Liquid"
-    ORGANIC = "Organic"
-    GAS = "Gas"
+class Grade(PrintMixin, Enum):
+    col: str
+    def __new__(cls, value, color = "green"):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.col = color
+        return obj
+
+    IMPURE = ("Impure", color.black)
+    CRUDE = ("Crude", color.white)
+    COMMON = ("Common", color.green)
+    REFINED = ("Refined", color.blue)
+    PURE = ("Pure", color.orange)
+    PRISTINE = ("Pristine", color.red)
+
+class ResourceType(PrintMixin, Enum):
+    col: str
+    def __new__(cls, value, color = "green"):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.col = color
+        return obj
+    
+    METAL = ("Metal", color.black)
+    MINERAL = ("Mineral", color.magenta)
+    CRYSTAL = ("Crystal", color.cyan)
+    LIQUID = ("Liquid", color.blue)
+    ORGANIC = ("Organic", color.orange)
+    GAS = ("Gas", color.yellow)
 
 @dataclass
 class Resource:
@@ -34,19 +52,8 @@ class Deposit:
     extraction_diff: int = 1
 
 def print_resource(res: Resource) -> str:
-    
-    txt_color = ""
 
-    match res.type:
-        case ResourceType.METAL: txt_color = f"{color.black}"
-        case ResourceType.CRYSTAL: txt_color = f"{color.cyan}"
-        case ResourceType.MINERAL: txt_color = f"{color.magenta}"
-        case ResourceType.LIQUID: txt_color = f"{color.blue}"
-        case ResourceType.ORGANIC: txt_color = f"{color.orange}"
-        case ResourceType.GAS: txt_color = f"{color.yellow}"
-        case _: txt_color = f"{color.white}" 
-
-    return Text(f"{res.grade.name} {res.type.name}({number_to_roman(res.lv)}): {format_number(res.amount)}", f"{txt_color}")
+    return f"{res.grade.format()} {res.type.format()}({number_to_roman(res.lv)}): [{color.green}]{format_number(res.amount)}[/{color.green}]"
 
 
 def resource_to_key(res: Resource) -> str:

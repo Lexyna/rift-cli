@@ -31,8 +31,8 @@ def status(game: GameData) -> None:
     pass
 
 def print_resources(game: GameData) -> None:
-    
+
     for res in game.resources.values():
-        console.log(f"{res.grade.name} {res.type.name}({number_to_roman(res.lv)}): {res.amount}")
+        console.log(f"{res.grade.format()} {res.type.format()}({number_to_roman(res.lv)}): {res.amount}")
 
     pass
