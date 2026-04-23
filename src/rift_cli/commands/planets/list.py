@@ -20,8 +20,8 @@ def list(game: GameData) -> None:
     for p in game.planets.values():
 
         resources: str = ""
-        for key in p.deposits:
-            resources += key.name + " "
+        for res in p.deposits:
+            resources += res.resource.type.name + " "
         planet_table.add_row(p.name,
                             p.id,
                     f"{len(p.slots)}/{p.max_slots}",

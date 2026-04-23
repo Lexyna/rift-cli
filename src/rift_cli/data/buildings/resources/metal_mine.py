@@ -31,10 +31,11 @@ def tick(building: Building, game: GameData, ticks: int) -> None:
 
     planet: PlanetData = game.planets[building.planet_id]
 
-    # simple logic for now
-    if planet.deposits[ResourceType.METAL] > 10 * executed:
-        game.resources[ResourceType.METAL] += 10 * executed
-        planet.deposits[ResourceType.METAL] -= 10 * executed
+    for deposit in planet.deposits:
+        if deposit.extraction_diff <= 1 and deposit.resource.type == ResourceType.METAL:
+            if deposit.resource.amount > 10 * executed:
+                game.resources[ResourceType.METAL] += 10 * executed
+                deposit.resource.amount -= 10 * executed
     pass
 
 @building_display(BUILDING.METALMINE)
