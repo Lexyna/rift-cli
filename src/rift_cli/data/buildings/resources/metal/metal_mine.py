@@ -1,3 +1,5 @@
+from typing import Literal
+
 from rich.progress import Progress, TaskID
 from rich.text import Text
 
@@ -13,10 +15,9 @@ from rift_cli.functions.generic.resource_utils import player_add_resource
 from rift_cli.utils.colors import color
 from rift_cli.utils.vars import BUILDING
 
-@dataclass
 class MetalMine(Building):
+    type: Literal["metalmine"] = "metalmine"
     name: str = BUILDING.METALMINE
-    metalspec: str = "test"
     
 @building_create(BUILDING.METALMINE)
 def create(building: Building, game: GameData) -> None:
@@ -43,7 +44,7 @@ def tick(building: Building, game: GameData, ticks: int) -> None:
 @building_display(BUILDING.METALMINE)
 def display(building: MetalMine, game: GameData, ticks: int) -> None:
     console.log(f"Metalmine({building.id}) ({building.level}) tick: {building.curr_tick}/{building.cooldown}")
-    #console.log(f"metal:{building.metalspec}")
+    console.log(f"metal:{building.metalspec}")
     pass
 
 @building_display_live(BUILDING.METALMINE)

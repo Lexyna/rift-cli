@@ -1,11 +1,11 @@
 from math import floor
-from typing import Callable
-from rift_cli.data.planetdata import PlanetData
+
+from pydantic import BaseModel
+
 from rift_cli.functions.generic.generators import generate_id
 from dataclasses import dataclass, field
 
-@dataclass
-class Building:
+class Building(BaseModel):
     id: str = field(default=generate_id())
     name: str = "BaseBuilding"
     level: int = 1

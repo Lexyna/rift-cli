@@ -1,4 +1,7 @@
+from pickle import BUILD
+
 from rift_cli.data.buildings.building import Building
+from rift_cli.data.buildings.resources.crystal.crystal_mine import CrystalMine
 from rift_cli.data.buildings.resources.metal.metal_mine import MetalMine
 from rift_cli.data.game.gamedata import GameData, game_ctx
 from rift_cli.display.console import console
@@ -15,7 +18,8 @@ def build(game: GameData, name: str, planet_id: str) -> None:
     
     match name:
         case BUILDING.METALMINE: create_new_building(game, MetalMine(), planet_id)
-        case _: console.log("No building '{name}' found", f"bold")
+        case BUILDING.CRYSTALMINE: create_new_building(game, CrystalMine(), planet_id)
+        case _: console.log(f"No building '{name}' found", f"bold")
     pass
 
 def create_new_building(game: GameData, building: Building, planet_id: str) -> None:

@@ -1,6 +1,6 @@
 from typing import Callable
 
-from rich.progress import Progress, Task, TaskID
+from rich.progress import Progress, TaskID
 
 from rift_cli.data.buildings.building import Building
 from rift_cli.data.game.gamedata import GameData

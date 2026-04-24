@@ -1,28 +1,37 @@
-from math import floor
 import time
 
-from cattrs.strategies import include_subclasses
-import click
-from rich.text import Text
-
-from rift_cli.data.buildings.building import Building
+from pydantic import BaseModel
+from rift_cli.data.buildings.building_union import BUILDING_UNION
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.game.optiondata import OptionData
-from rift_cli.data.resources import Resource, resource_to_key
-from rift_cli.utils.colors import color
+from rift_cli.data.planetdata import PlanetData
+from rift_cli.data.resources import Resource
 from rift_cli.utils.vars import RIFT_FOLDER, STATE_PATH
 from rift_cli.data.buildings.building_registry import registry_building
 from rift_cli.functions.planets.planet import create_planet
 from rift_cli.display.console import console
-import cattrs
-import json
 import os
+
+class GameSaveData(BaseModel):
+    options: OptionData
+    current_tick: int
+    last_update: float
+    credits: int
+    resources: dict[str, Resource]
+    planets: dict[str, PlanetData]
+    buildings: dict[str, BUILDING_UNION]
 
 def create_new_game_state(ticks: int, paused: bool) -> GameData:
     
     game_options: OptionData = OptionData(ticks, paused)
 
-    game: GameData = GameData(options=game_options)
+    game: GameData = GameData(options=game_options, 
+                              current_tick=0, 
+                              last_update=time.time(),
+                              credits=1000, 
+                              buildings={}, 
+                              planets={}, 
+                              resources={})
 
     game.last_update = time.time()
 
@@ -36,9 +45,18 @@ def load_game() -> GameData:
     with open(STATE_PATH, "r") as f:
         state_str: str = f.read()
 
-    converter = cattrs.Converter()
-    game_state: GameData =  converter.structure(json.loads(state_str), GameData)
-    
+    game_save: GameSaveData = GameSaveData.model_validate_json(state_str)
+
+    game_state: GameData = GameData(
+        options=game_save.options,
+        current_tick=game_save.current_tick,
+        last_update=game_save.last_update,
+        credits=game_save.credits,
+        resources=game_save.resources,
+        planets=game_save.planets,
+        buildings=game_save.buildings
+    )
+
     return game_state
 
 def save_game(game: GameData) -> None:
@@ -47,10 +65,18 @@ def save_game(game: GameData) -> None:
         console.log(f"Failed to save game, no '{RIFT_FOLDER}' found.")
         return
 
-    converter = cattrs.Converter()
-    
+    game_save_struct: GameSaveData = GameSaveData(
+        options=game.options,
+        current_tick=game.current_tick,
+        last_update=game.last_update,
+        credits=game.credits,
+        resources=game.resources,
+        planets=game.planets,
+        buildings=game.buildings
+    )
+
     with open(STATE_PATH, "w") as f:
-        f.write(json.dumps(converter.unstructure(game)))
+        f.write(game_save_struct.model_dump_json())
 
     return
 
