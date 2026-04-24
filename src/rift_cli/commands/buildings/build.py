@@ -1,12 +1,12 @@
 from pickle import BUILD
 
 from rift_cli.data.buildings.building import Building
-from rift_cli.data.buildings.resources.crystal.crystal_mine import CrystalMine
-from rift_cli.data.buildings.resources.metal.metal_mine import MetalMine
+from rift_cli.data.buildings.resources.mine import Mine
 from rift_cli.data.game.gamedata import GameData, game_ctx
+from rift_cli.data.planetdata import PlanetData
+from rift_cli.data.resources import ResourceType
 from rift_cli.display.console import console
-from rift_cli.functions.generic.generators import generate_id
-from rift_cli.utils.vars import BUILDING
+from rift_cli.utils.vars import BUILDING_ID
 from rift_cli.data.buildings.building_registry import registry_building_create
 import click
 
@@ -17,8 +17,12 @@ import click
 def build(game: GameData, name: str, planet_id: str) -> None:
     
     match name:
-        case BUILDING.METALMINE: create_new_building(game, MetalMine(), planet_id)
-        case BUILDING.CRYSTALMINE: create_new_building(game, CrystalMine(), planet_id)
+        case BUILDING_ID.METALMINE: create_new_building(game, Mine(extract=ResourceType.METAL), planet_id)
+        case BUILDING_ID.MINERALMINE: create_new_building(game, Mine(extract=ResourceType.MINERAL), planet_id)
+        case BUILDING_ID.CRYSTALMINE: create_new_building(game, Mine(extract=ResourceType.CRYSTAL), planet_id)        
+        case BUILDING_ID.GASSIPHON: create_new_building(game, Mine(extract=ResourceType.GAS), planet_id)        
+        case BUILDING_ID.HARVESTER: create_new_building(game, Mine(extract=ResourceType.ORGANIC), planet_id)        
+        case BUILDING_ID.COLLECTOR: create_new_building(game, Mine(extract=ResourceType.LIQUID), planet_id)        
         case _: console.log(f"No building '{name}' found", f"bold")
     pass
 
@@ -30,9 +34,12 @@ def create_new_building(game: GameData, building: Building, planet_id: str) -> N
         console.log(f"No planets with id '{planet_id}' found")
         return
     
-    if len(game.planets[planet_id].slots) >= game.planets[planet_id].max_slots:
+    planet : PlanetData = game.planets[planet_id]
+
+    if len(planet.slots) >= planet.max_slots:
         console.log("No available slot on this planet")
         return
+
 
     # add building
     game.planets[planet_id].slots.append(building.id)

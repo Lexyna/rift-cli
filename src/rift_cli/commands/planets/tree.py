@@ -19,7 +19,7 @@ def tree(game: GameData) -> None:
         building_branch = planet_tree.add("buildings")
         for id in p.slots:
             if id in game.buildings:
-                building_branch.add(game.buildings[id].name + f" (lv.{game.buildings[id].level})")
+                building_branch.add(game.buildings[id].get_name() + f" (lv.{game.buildings[id].level})")
         tree_list.append(planet_tree)
 
         resource_brnach = planet_tree.add("Resources")

@@ -13,6 +13,9 @@ class Building(BaseModel):
     curr_tick: int = 0
     cooldown: int = 20
 
+    def get_name(self) -> str:
+        return ""
+
 # Sets the current tick for the buidlings and returns the times it ticked
 def set_curr_tick(building: Building, ticks: int) -> int:
   
