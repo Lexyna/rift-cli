@@ -1,3 +1,4 @@
+import datetime
 from math import floor
 import time
 
@@ -22,8 +23,10 @@ def status(game: GameData) -> None:
         save_game(game)
         return
 
+    time_string = datetime.timedelta(seconds=game.current_tick*game.options.tickrate)
+
     msg_status = Text(f"Ticks since game started: ")
-    msg_status.append(f"{game.current_tick}", f"bold {color.green}")
+    msg_status.append(f"{game.current_tick} ({time_string})", f"bold {color.green}")
     console.log(msg_status)
 
     print_resources(game)
