@@ -1,9 +1,8 @@
-from asyncio import sleep
+from pstats import Stats
 import time
 
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, TimeRemainingColumn
-from rich.style import Style
-from rich.text import Text
+from rich.table import Table
 
 from rift_cli.data.buildings.building import Building
 from rift_cli.data.buildings.building_registry import registry_display_building, registry_display_live_building
@@ -46,8 +45,18 @@ def status(game, live) -> None:
 
         return
 
+    status_table = Table()
+    status_table.box = None
+
+    status_table.add_column("name")
+    status_table.add_column("level", justify="right")
+    status_table.add_column("extracting")
+    status_table.add_column("current tick")
+
     for key in game.buildings.keys():
         building: Building = game.buildings[key]
-        registry_display_building[building.name](building, game, 0)
+        registry_display_building[building.name](status_table, building, game, 0)
+
+    console.log(status_table)
 
     pass

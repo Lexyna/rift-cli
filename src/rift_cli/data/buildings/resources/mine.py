@@ -1,13 +1,16 @@
 from email.policy import default
+from pickle import FALSE, TRUE
+from traceback import extract_tb
 from typing import Literal
 
 from rich.progress import Progress, TaskID
+from rich.table import Table
 from rich.text import Text
 
 from rift_cli.data.buildings.building import Building, set_curr_tick
 from rift_cli.data.buildings.building_registry import building_create, building_display, building_tick, building_display_live
 from rift_cli.data.game.gamedata import GameData
-from rift_cli.data.resources import ResourceType
+from rift_cli.data.resources import Deposit, ResourceType
 from rift_cli.display.console import console
 
 from rift_cli.data.planetdata import PlanetData
@@ -50,19 +53,55 @@ def tick(building: Mine, game: GameData, ticks: int) -> None:
     pass
 
 @building_display(BUILDING_TYPE.MINE)
-def display(building: Mine, game: GameData, ticks: int) -> None:
-    console.log(f"[{building.extract.col}]{building.extract.name}mine({building.id}) [/{building.extract.col}] ({building.level}) tick: {building.curr_tick}/{building.cooldown}")
+def display(table: Table, building: Mine, game: GameData, ticks: int) -> None:
+
+    extraction_inf: str = ""
+
+    if building.planet_id in game.planets:
+        planet: PlanetData = game.planets[building.planet_id]
+        has_deposit: bool = False
+        for depsosit in planet.deposits:
+            if depsosit.resource.type == building.extract and depsosit.extraction_diff == 1 and depsosit.resource.amount > 0:
+                has_deposit = True
+                break
+        if has_deposit:
+            extraction_inf = f"{building.extract.format()}"
+        else:
+            extraction_inf = f"[{color.red}]NONE[/{color.red}]"
+    else:
+        extraction_inf = "NONE"
+
+    table.add_row(f"[{building.extract.col}]{building.get_name()}({building.id})[/{building.extract.col}]",
+                  f"{building.level}",
+                  extraction_inf,
+                  f"{building.curr_tick}/{building.cooldown}")
     pass
 
 @building_display_live(BUILDING_TYPE.MINE)
 def display_live(p: Progress, building: Mine, game: GameData, ticks: int) -> TaskID:
     
     planetname = game.planets[building.planet_id].name
-    name = Text(f"[{color.cyan}]{building.name}[/{color.cyan}]([{color.orange}]{planetname}[/{color.orange}])")
+    name = Text(f"{building.get_name()}([{color.orange}]{planetname}[/{color.orange}])")
+
+    extraction_inf: str = ""
+
+    if building.planet_id in game.planets:
+        planet: PlanetData = game.planets[building.planet_id]
+        has_deposit: bool = False
+        for depsosit in planet.deposits:
+            if depsosit.resource.type == building.extract and depsosit.extraction_diff == 1 and depsosit.resource.amount > 0:
+                has_deposit = True
+                break
+        if has_deposit:
+            extraction_inf = f"{building.extract.format()}"
+        else:
+            extraction_inf = f"[{color.red}]NONE[/{color.red}]"
+    else:
+        extraction_inf = "NONE"
 
     task = p.add_task(name,
                     completed=building.curr_tick * game.options.tickrate,
                     total=building.cooldown * game.options.tickrate,
-                    desc=f"Extracting: {building.extract.format()}")
+                    desc=f"Extracting: {extraction_inf}")
     
     return task

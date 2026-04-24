@@ -5,6 +5,7 @@ from rift_cli.data.game.gamedata import GameData, game_ctx
 import click
 
 from rift_cli.display.console import console
+from rift_cli.utils.colors import color
 
 @click.command
 @game_ctx
@@ -21,9 +22,9 @@ def list(game: GameData) -> None:
 
         resources: str = ""
         for res in p.deposits:
-            resources += res.resource.type.name + " "
-        planet_table.add_row(p.name,
-                            p.id,
+            resources += f"[{res.resource.type.col}]" + res.resource.type.name + f"[/{res.resource.type.col}] "
+        planet_table.add_row(f"[{color.yellow}]{p.name}",
+                            f"[{color.cyan}]{p.id}",
                     f"{len(p.slots)}/{p.max_slots}",
                     resources)
         pass

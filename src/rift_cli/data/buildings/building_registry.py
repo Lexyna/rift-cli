@@ -1,6 +1,7 @@
 from typing import Callable
 
 from rich.progress import Progress, TaskID
+from rich.table import Table
 
 from rift_cli.data.buildings.building import Building
 from rift_cli.data.game.gamedata import GameData
@@ -9,7 +10,7 @@ BuildingCreate = Callable[[Building, GameData], None]
 BuildingDestroy = Callable[[Building, GameData], None]
 
 BuildingTick = Callable[[Building, GameData, int], None]
-BuildingDisplay = Callable[[Building, GameData, int], None]
+BuildingDisplay = Callable[[Table, Building, GameData, int], None]
 BuildingDisplayLive = Callable[[Progress, Building, GameData, int], TaskID]
 
 registry_building: dict[str, BuildingTick] = {}
