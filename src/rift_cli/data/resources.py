@@ -20,7 +20,7 @@ class Grade(PrintMixin, Enum):
         return obj
 
     IMPURE = ("Impure", color.black, 0)
-    CRUDE = ("Crude", color.white, 1)
+    CRUDE = ("Crude", color.yellow, 1)
     COMMON = ("Common", color.green, 2)
     REFINED = ("Refined", color.blue, 3)
     PURE = ("Pure", color.orange, 4)

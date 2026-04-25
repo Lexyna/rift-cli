@@ -25,4 +25,4 @@ def format_number(number: int) -> str:
         tier += 3
         number /= 1000
 
-    return f"{number:.0f}e{tier}"
+    return f"{number:.2f}e{tier}"
