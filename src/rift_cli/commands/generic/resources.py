@@ -23,7 +23,7 @@ from rift_cli.functions.generic.resource_utils import player_add_resource
 @click.option("--live", "-l", is_flag=True, default=False,
               help="Displays live resource values")
 @game_ctx
-def resources(game: GameData, live) -> None:
+def resources(game: GameData, live:bool) -> None:
     
     if live:
         with Live(create_res_table(game), refresh_per_second=20) as live:
@@ -31,11 +31,9 @@ def resources(game: GameData, live) -> None:
             for i in range(10000):
                 sleep(0.05)
                 live.update(create_res_table(game))
-
         return
 
     console.log(create_res_table(game))
-
     pass
 
 def create_res_table(game: GameData) -> Table:

@@ -16,7 +16,7 @@ from rift_cli.utils.colors import color
 @game_ctx
 @click.option("--live", "-l", is_flag=True, default=False,
               help="Displays live progress of buildings")
-def status(game, live) -> None:
+def status(game: GameData, live: bool) -> None:
 
     if live:
         progress = Progress(
