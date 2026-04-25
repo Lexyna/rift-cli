@@ -6,6 +6,7 @@ import click
 from rift_cli.commands.buildings.building import buildings
 from rift_cli.commands.generic.init import init
 from rift_cli.commands.generic.status import status
+from rift_cli.commands.generic.test import test
 from rift_cli.commands.planets.planets import planets
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.display.console import console
@@ -41,6 +42,7 @@ def cli(ctx: click.Context):
 
 cli.add_command(init)
 cli.add_command(status)
+cli.add_command(test)
 cli.add_command(planets)
 cli.add_command(buildings)
 

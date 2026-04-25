@@ -11,18 +11,20 @@ class PrintMixin:
 
 class Grade(PrintMixin, Enum):
     col: str
-    def __new__(cls, value, color = "green"):
+    grade: int
+    def __new__(cls, value, color = "green", g = 0):
         obj = object.__new__(cls)
         obj._value_ = value
         obj.col = color
+        obj.grade = g
         return obj
 
-    IMPURE = ("Impure", color.black)
-    CRUDE = ("Crude", color.white)
-    COMMON = ("Common", color.green)
-    REFINED = ("Refined", color.blue)
-    PURE = ("Pure", color.orange)
-    PRISTINE = ("Pristine", color.red)
+    IMPURE = ("Impure", color.black, 0)
+    CRUDE = ("Crude", color.white, 1)
+    COMMON = ("Common", color.green, 2)
+    REFINED = ("Refined", color.blue, 3)
+    PURE = ("Pure", color.orange, 4)
+    PRISTINE = ("Pristine", color.red, 5)
 
 class ResourceType(PrintMixin, Enum):
     col: str
