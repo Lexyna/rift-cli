@@ -1,9 +1,14 @@
 
 from curses import meta
+from email.policy import default
+from random import choice, random, randrange
 import re
+from time import sleep
+from zoneinfo import reset_tzpath
 
 import click
 from rich import box
+from rich.live import Live
 from rich.table import Table
 
 from rift_cli.data.buildings.resources import mine
@@ -15,9 +20,25 @@ from rift_cli.functions.generic.resource_utils import player_add_resource
 
 
 @click.command
+@click.option("--live", "-l", is_flag=True, default=False,
+              help="Displays live resource values")
 @game_ctx
-def resources(game: GameData) -> None:
+def resources(game: GameData, live) -> None:
+    
+    if live:
+        with Live(create_res_table(game), refresh_per_second=20) as live:
+            #TODO: Add proper update claculation/handling
+            for i in range(10000):
+                sleep(0.05)
+                live.update(create_res_table(game))
 
+        return
+
+    console.log(create_res_table(game))
+
+    pass
+
+def create_res_table(game: GameData) -> Table:
     res_table: Table = Table(box=box.ASCII)
 
     res_table.add_column()
@@ -35,9 +56,7 @@ def resources(game: GameData) -> None:
     add_resource_rows(res_table, Grade.PURE, game)
     add_resource_rows(res_table, Grade.PRISTINE, game)
 
-    console.log(res_table)
-
-    pass
+    return res_table
 
 def add_resource_rows(res_table: Table, grade: Grade, game: GameData) -> None:
 
@@ -81,7 +100,7 @@ def add_resource_rows(res_table: Table, grade: Grade, game: GameData) -> None:
         if not first:
             crystals_str += "\n"
         first = False
-        crystals_str += f"{number_to_roman(res.lv)}: {format_number(res.amount)}"
+        crystals_str += f"{format_number(res.amount)} ({number_to_roman(res.lv)})"
 
     first = True
     liquid_str: str = ""
@@ -89,8 +108,7 @@ def add_resource_rows(res_table: Table, grade: Grade, game: GameData) -> None:
         if not first:
             liquid_str += "\n"
         first = False
-        liquid_str += f"{number_to_roman(res.lv)}: {format_number(res.amount)}"
-
+        liquid_str += f"{format_number(res.amount)} ({number_to_roman(res.lv)})"
 
     first = True
     gas_str: str = ""
@@ -98,7 +116,7 @@ def add_resource_rows(res_table: Table, grade: Grade, game: GameData) -> None:
         if not first:
             gas_str += "\n"
         first = False
-        gas_str += f"{number_to_roman(res.lv)}: {format_number(res.amount)}"
+        gas_str += f"{format_number(res.amount)} ({number_to_roman(res.lv)})"
    
     first = True
     organic_str: str = ""
@@ -106,7 +124,7 @@ def add_resource_rows(res_table: Table, grade: Grade, game: GameData) -> None:
         if not first:
             organic_str += "\n"
         first = False
-        organic_str += f"{number_to_roman(res.lv)}: {format_number(res.amount)}"
+        organic_str += f"{format_number(res.amount)} ({number_to_roman(res.lv)})"
 
     if not metal_str: metal_str = "N/A"
     if not mineral_str: mineral_str = "N/A"
