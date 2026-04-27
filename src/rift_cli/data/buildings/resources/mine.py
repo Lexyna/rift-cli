@@ -9,6 +9,7 @@ from rich.text import Text
 
 from rift_cli.data.buildings.building import Building, set_curr_tick
 from rift_cli.data.buildings.building_registry import building_create, building_display, building_tick, building_display_live
+from rift_cli.data.cost.cost import Cost
 from rift_cli.data.game.gamedata import GameData
 from rift_cli.data.resources import Deposit, ResourceType
 from rift_cli.display.console import console
@@ -22,6 +23,11 @@ class Mine(Building):
     type: Literal["mine"] = "mine"
     name: str = BUILDING_TYPE.MINE
     extract: ResourceType = ResourceType.METAL
+    _cost = Cost(
+        metal=10_000,
+        mineral=5_000,
+        crystaks=1_000,
+    )
 
     def get_name(self):
         match(self.extract):

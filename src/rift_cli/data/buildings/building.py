@@ -2,6 +2,7 @@ from math import floor
 
 from pydantic import BaseModel
 
+from rift_cli.data.cost.cost import Cost
 from rift_cli.functions.generic.generators import generate_id
 from dataclasses import dataclass, field
 
@@ -12,6 +13,7 @@ class Building(BaseModel):
     planet_id: str = "None"
     curr_tick: int = 0
     cooldown: int = 20
+    _cost: Cost = Cost()
 
     def get_name(self) -> str:
         return ""

@@ -1,0 +1,3 @@
+
+class Reserach:
+    name: str

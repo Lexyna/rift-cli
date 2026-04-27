@@ -18,7 +18,7 @@ def status(game: GameData) -> None:
         
     if game.options.paused:
         console.log(Text(f"Paused"))
-        print_resources(game)
+        #print_resources(game)
         game.last_update = time.time()
         save_game(game)
         return
@@ -29,7 +29,7 @@ def status(game: GameData) -> None:
     msg_status.append(f"{game.current_tick} ({time_string})", f"bold {color.green}")
     console.log(msg_status)
 
-    print_resources(game)
+    #print_resources(game)
 
     pass
 
